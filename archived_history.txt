@@ -1,0 +1,53 @@
+commit 970ff20e950ecb3ee40f218764e9ff056ecd8adf
+Author: gmanipon <gmanipon@jpl.nasa.gov>
+Date:   Mon Jun 12 19:28:17 2017 +0000
+
+    remove leading whitespace; set timeout
+
+commit 79817f6bc40305da4a3321c073b7bbf761d567af
+Author: gmanipon <gmanipon@jpl.nasa.gov>
+Date:   Mon Jun 12 16:46:04 2017 +0000
+
+    use redis from yum since version 3.2+
+
+commit 5078b578aed76f0436a2e9092906e156c64c850d
+Author: gmanipon <gmanipon@jpl.nasa.gov>
+Date:   Thu Oct 1 18:51:12 2015 +0000
+
+    include cloud_utils
+
+commit c907a7aeb9d9522c05559d0de08dcfdcf99ebece
+Author: gmanipon <gmanipon@jpl.nasa.gov>
+Date:   Wed Sep 30 22:36:24 2015 +0000
+
+    open up default tsunami port
+
+commit 2ed8e4690ebb4030c0e95e628c73bdeb07c87d8b
+Author: gmanipon <gmanipon@jpl.nasa.gov>
+Date:   Tue Sep 29 23:17:25 2015 +0000
+
+    update
+
+commit da1e6b0cdc979ff0a2ccd78755731afdf99d981e
+Author: gmanipon <gmanipon@jpl.nasa.gov>
+Date:   Tue Sep 29 23:13:06 2015 +0000
+
+    cleanup
+
+commit 3da29750f0c5b586309e9ec41cb1fefb07b9da02
+Author: gmanipon <gmanipon@jpl.nasa.gov>
+Date:   Tue Sep 29 23:09:38 2015 +0000
+
+    update docs with virtualenv installation
+
+commit c46f915802e428a9e8a0bad6a808bb7c34bde580
+Author: gmanipon <gmanipon@jpl.nasa.gov>
+Date:   Fri Sep 25 17:01:38 2015 +0000
+
+    override verdi firewall
+
+commit 85141063b14bdffb2dfee4038a23cf53f1f0a0b6
+Author: gmanipon <gmanipon@jpl.nasa.gov>
+Date:   Fri Sep 25 16:34:13 2015 +0000
+
+    initial import
