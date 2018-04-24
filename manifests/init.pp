@@ -31,13 +31,41 @@ class factotum inherits verdi {
 
 
   #####################################################
+  # tune kernel for high performance redis
+  #####################################################
+
+  file { "/usr/lib/sysctl.d":
+    ensure  => directory,
+    mode    => 0755,
+  }
+
+
+  file { "/usr/lib/sysctl.d/redis.conf":
+    ensure  => present,
+    content => template('factotum/redis.conf.sysctl'),
+    mode    => 0644,
+    require => File["/usr/lib/sysctl.d"],
+  }
+
+
+  exec { "sysctl-system":
+    path    => ["/sbin", "/bin", "/usr/bin"],
+    command => "/sbin/sysctl --system",
+    require => File["/usr/lib/sysctl.d/redis.conf"],
+  }
+
+
+  #####################################################
   # install redis
   #####################################################
 
   package { "redis":
     ensure   => present,
     notify   => Exec['ldconfig'],
-    require => Exec["no-thp"],
+    require => [
+                Exec["no-thp"],
+                Exec["sysctl-system"],
+               ],
   }
 
 
@@ -49,6 +77,29 @@ class factotum inherits verdi {
   }
 
 
+  file { ["/etc/systemd/system/redis.service.d",
+         "/etc/systemd/system/redis-sentinel.service.d"]:
+    ensure  => directory,
+    mode    => 0755,
+  }
+
+
+  file { "/etc/systemd/system/redis.service.d/limit.conf":
+    ensure  => present,
+    content => template('factotum/redis_service.conf'),
+    mode    => 0644,
+    require => File["/etc/systemd/system/redis.service.d"],
+  }
+
+
+  file { "/etc/systemd/system/redis-sentinel.service.d/limit.conf":
+    ensure  => present,
+    content => template('factotum/redis_service.conf'),
+    mode    => 0644,
+    require => File["/etc/systemd/system/redis-sentinel.service.d"],
+  }
+
+
   service { 'redis':
     ensure     => running,
     enable     => true,
@@ -56,6 +107,8 @@ class factotum inherits verdi {
     hasstatus  => true,
     require    => [
                    File['/etc/redis.conf'],
+                   File['/etc/systemd/system/redis.service.d/limit.conf'],
+                   File['/etc/systemd/system/redis-sentinel.service.d/limit.conf'],
                    Exec['daemon-reload'],
                   ],
   }
