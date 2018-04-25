@@ -56,6 +56,36 @@ class factotum inherits verdi {
 
 
   #####################################################
+  # install postfix
+  #####################################################
+
+  package { "postfix":
+    ensure   => present,
+    notify   => Exec['ldconfig'],
+  }
+
+
+  file { '/etc/postfix/main.cf':
+    ensure       => file,
+    content      => template('factotum/main.cf'),
+    mode         => 0644,
+    require      => Package['postfix'],
+  }
+
+
+  service { 'postfix':
+    ensure     => running,
+    enable     => true,
+    hasrestart => true,
+    hasstatus  => true,
+    require    => [
+                   File['/etc/postfix/main.cf'],
+                   Exec['daemon-reload'],
+                  ],
+  }
+
+
+  #####################################################
   # install redis
   #####################################################
 
@@ -121,6 +151,11 @@ class factotum inherits verdi {
   Firewalld::Zone["public"] {
     services => [ "ssh", "dhcpv6-client", "http", "https" ],
     ports => [
+      {
+        # smtp
+        port     => "25",
+        protocol => "tcp",
+      },
       {
         # work_dir dav server
         port     => "8085",
